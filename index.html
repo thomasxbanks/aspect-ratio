@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aspect Ratio</title>
+    <style>
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <iframe src="https://player.vimeo.com/video/18554749" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <p><a href="https://vimeo.com/18554749">NYC - Mindrelic Timelapse</a> from <a href="https://vimeo.com/mindrelic">Mindrelic</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+    </main>
+    <script>
+        const AspectRatio = (element, parent) => {
+            var parent = document.querySelector(parent)
+            var element = document.querySelector(element)
+            var containerWidth = parent.clientWidth
+            // new height = (original height / original width) x new width
+            var newHeight = (360 / 640) * containerWidth
+            element.setAttribute('height', ~~(newHeight))
+            element.setAttribute('width', ~~(containerWidth))
+
+            // log for debug
+            //console.log('newheight', ~~(newHeight), 'newWidth', ~~(containerWidth))
+
+        }
+
+        window.onload = (e) => {
+            AspectRatio('iframe', 'main')
+        }
+
+        window.onresize = (e) => {
+            AspectRatio('iframe', 'main')
+        }
+    </script>
+</body>
+
+</html>
