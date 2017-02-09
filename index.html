@@ -15,17 +15,15 @@
 <body>
     <main>
         <iframe src="https://player.vimeo.com/video/18554749" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <iframe src="https://player.vimeo.com/video/18554749" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         <p><a href="https://vimeo.com/18554749">NYC - Mindrelic Timelapse</a> from <a href="https://vimeo.com/mindrelic">Mindrelic</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
     </main>
     <script>
-        const AspectRatio = (element, parent) => {
-            var parent = document.querySelector(parent)
-            var element = document.querySelector(element)
-            var containerWidth = parent.clientWidth
+        const AspectRatio = (element, parent, originalDimensions) => {
             // new height = (original height / original width) x new width
-            var newHeight = (360 / 640) * containerWidth
+            var newHeight = (originalDimensions.height / originalDimensions.width) * parent.clientWidth
             element.setAttribute('height', ~~(newHeight))
-            element.setAttribute('width', ~~(containerWidth))
+            element.setAttribute('width', ~~(parent.clientWidth))
 
             // log for debug
             //console.log('newheight', ~~(newHeight), 'newWidth', ~~(containerWidth))
@@ -33,11 +31,24 @@
         }
 
         window.onload = (e) => {
-            AspectRatio('iframe', 'main')
-        }
+            let elements = document.body.getElementsByTagName('iframe')
+            let originalDimensions = {
+                "width": elements[0].getAttribute('width'),
+                "height": elements[0].getAttribute('height')
+            }
 
-        window.onresize = (e) => {
-            AspectRatio('iframe', 'main')
+
+            for (var i = 0; i < elements.length; i++) {
+                AspectRatio(elements[i], elements[i].parentElement, originalDimensions)
+            }
+
+
+            window.onresize = (e) => {
+                for (var i = 0; i < elements.length; i++) {
+                    AspectRatio(elements[i], elements[i].parentElement, originalDimensions)
+                }
+            }
+
         }
     </script>
 </body>
